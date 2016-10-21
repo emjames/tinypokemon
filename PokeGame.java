@@ -1,7 +1,10 @@
 // main controller for the Pokemon game
 public class PokeGame {
     // flip to check if there is a winner
-    private static boolean haveWin = false;
+    private static boolean have_win = false;
+
+    // track pokemon's turns
+    private string game_turn = "";
 
     public static void main(String[] args) {
         System.out.println("\tGame is up\n");
@@ -32,26 +35,37 @@ public class PokeGame {
         System.out.println("\nLet's battle!");
         System.out.println("===============================");
 
-        // loop until one pokemon's hp hits 1 (we don't want them to die)
+
+        // let the normal pokemon go first
+        game_turn = poke1.getName();
+
+        // loop until one pokemon's hp is less than 0
         // while(poke1.getHp() > 2 && spoke1.getHp() > 2){
-        while(!haveWin){
-            // play one round
-            g.highlow(poke1, spoke1);
+        while(!have_win){
 
             // check if poke is the winner
             // if NORMAL pokemon's hp > SUPER pokemon's hp AND SUPER pokemon's hp is <= 1
-            if(poke1.getHp() > spoke1.getHp() && spoke1.getHp() < 1){
+            if(poke1.getHp() > spoke1.getHp() && spoke1.getHp() <= 1){
                 System.out.println(poke1.getName() + " is the winner!!");
-                haveWin = true;
+                have_win = true;
 
             // check if spoke is the winner
             // if SUPERpokemon's hp > NORMAL pokemon's hp AND NORMAL pokemon's hp is <= 1
             } else if(spoke1.getHp() > poke1.getHp() && poke1.getHp() <= 1) {
                 System.out.println(spoke1.getName() + " is the winner!!");
-                haveWin = true;
+                have_win = true;
             // else play again
             } else {
-                g.highlow(spoke1, poke1);
+                switch(game_turn){
+                    case poke1.getName():
+                        // the normal pokemon attacks the super pokemon
+                        g.highlow(poke1, spoke1);
+                        break;
+                    case spoke1.getName():
+                        // the super pokemon attacks the normal pokemon
+                        g.highlow(spoke1, poke1);
+                        break;
+                }
             }
         }
 
